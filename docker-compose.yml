@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+
+  web:
+    build: ./webapp
+    image: webapp
+    container_name: webapp
+    ports:
+      - '5000:5000'
+    depends_on:
+      - redis
+
+  worker:
+    build: ./worker
+    image: worker
+    container_name: worker
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:3.2.11
+    container_name: redis
