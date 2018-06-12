@@ -1,6 +1,6 @@
 import time
 
 
-def long_task():
-    time.sleep(100)
-    return True
+def long_task(duration):
+    time.sleep(duration)
+    return {'task': True}

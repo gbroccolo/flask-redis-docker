@@ -11,5 +11,6 @@ def run_worker():
         worker = Worker(REDIS_QUEUES)
         worker.work()
 
+
 if __name__ == '__main__':
     run_worker()
