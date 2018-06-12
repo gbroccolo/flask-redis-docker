@@ -35,11 +35,22 @@ def get_status(task_id):
             'data': {
                 'task_id': task.get_id(),
                 'task_status': task.get_status(),
-                'task_result': task.result,
+                'task_result': task.result
             }
         }
+
+        if task.is_failed:
+            response_object = {
+                'status': 'failed',
+                'data': {
+                  'task_id': task.get_id(),
+                  'message': task.exc_info.strip().split('\n')[-1]
+                }
+             }
     else:
-        response_object = {'status': 'error'}
+        response_object = {
+            'status': 'ERROR: Unable to fetch the task from RQ'
+        }
     return jsonify(response_object)
 
 
