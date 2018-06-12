@@ -12,7 +12,7 @@ REDIS_QUEUES = ['default']
 def run_long_task():
     with Connection(redis.from_url(REDIS_URL)):
         q = Queue()
-        task = q.enqueue(create_task, task_type)
+        task = q.enqueue(long_task)
     response_object = {
         'status': 'success',
         'data': {
@@ -43,4 +43,5 @@ return jsonify(response_object)
 
 if __name__ == '__main__':
     # Only for debugging while developing
-    #app.run(host='0.0.0.0', debug=True, port=5000)
+    # app.run(host='0.0.0.0', debug=True)
+    pass
