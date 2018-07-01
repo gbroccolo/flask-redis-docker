@@ -15,7 +15,8 @@ def run_long_task():
     task_duration = int(request.form['duration'])
     with Connection(redis.from_url(REDIS_URL)):
         q = Queue()
-        task = q.enqueue(long_task, task_duration)
+        # task need to be executed within the specified timeout
+        task = q.enqueue(long_task, task_duration, timeout=1200)
     response_object = {
         'status': 'success',
         'data': {
@@ -30,7 +31,8 @@ def run_parallel_long_task():
     task_duration = int(request.form['duration'])
     with Connection(redis.from_url(REDIS_URL)):
         q = Queue()
-        task = q.enqueue(parallel_long_task, task_duration)
+        # task need to be executed within the specified timeout
+        task = q.enqueue(parallel_long_task, task_duration, timeout=1200)
     response_object = {
         'status': 'success',
         'data': {
