@@ -3,6 +3,7 @@ from rq import Queue, Connection
 from flask import Flask, request, jsonify
 
 from long_task_package.long_task import long_task
+from long_task_package.long_task import parallel_long_task
 
 app = Flask(__name__)
 REDIS_URL = 'redis://redis:6379/0'
@@ -15,6 +16,21 @@ def run_long_task():
     with Connection(redis.from_url(REDIS_URL)):
         q = Queue()
         task = q.enqueue(long_task, task_duration)
+    response_object = {
+        'status': 'success',
+        'data': {
+            'task_id': task.get_id()
+        }
+    }
+    return jsonify(response_object), 202
+
+
+@app.route('/parallel_long_task', methods=['POST'])
+def run_parallel_long_task():
+    task_duration = int(request.form['duration'])
+    with Connection(redis.from_url(REDIS_URL)):
+        q = Queue()
+        task = q.enqueue(parallel_long_task, task_duration)
     response_object = {
         'status': 'success',
         'data': {

@@ -86,3 +86,28 @@ $ curl -X GET http://127.0.0.1:5000/tasks/05aabf85-b34a-4797-8d44-8ad767a3928e
   "status": "success"
 }
 ```
+
+There's also an example about submitting **parallel**, asynchronous tasks (here
+5 sub-workers are considered):
+```
+$ curl -X POST -F "duration=200" http://127.0.0.1:5000/parallel_long_task
+{
+  "data": {
+    "task_id": "3fdf65d2-bd97-477a-888d-bc33a25e750a"
+  },
+  "status": "success"
+}
+
+$ curl -X GET http://127.0.0.1:5000/tasks/3fdf65d2-bd97-477a-888d-bc33a25e750a
+{
+  "data": {
+    "task_id": "3fdf65d2-bd97-477a-888d-bc33a25e750a",
+    "task_result": {
+      "completed_subtasks": 5,
+      "failed_subtasks": 0
+    },
+    "task_status": "finished"
+  },
+  "status": "success"
+}
+```
